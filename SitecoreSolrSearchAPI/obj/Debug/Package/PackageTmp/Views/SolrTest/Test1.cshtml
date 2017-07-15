@@ -1,0 +1,24 @@
+﻿@using Sitecore.Data;
+@model IEnumerable<Sitecore.Data.Items.Item>
+
+
+
+    <table border="1">
+        @foreach (var item in Model)
+{
+    <tr>
+            <td>
+                <h1>@Html.Sitecore().Field("title", item)</h1>
+                <br/>
+                @Html.Sitecore().Field("description", item)
+
+            </td>
+
+            <td>
+                @Html.Sitecore().Field("image", item)
+            </td>
+        </tr>
+
+}
+
+</table>

@@ -1,0 +1,63 @@
+﻿<html>
+<head>
+    <title>Search Page</title>
+   
+    <script type="text/javascript" src="http://twitter.github.io/typeahead.js/js/jquery-1.10.2.min.js"></script> 
+    <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
+    <script type="text/javascript">
+        
+        $(function () {
+            var countries = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                // url points to a json file that contains an array of country names, see
+                // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                prefetch: 'http://sitecore82solr/api/Sitecore/SearchAutoComplete/AutoComplete'
+            });
+            $('#prefetch .typeahead').typeahead(null, {
+                name: 'countries',
+                source: countries
+            });
+        });
+        $(function () {
+            
+
+            $("#submit").click(function () {
+                
+                $.ajax({
+                    url: "api/Sitecore/SolrTest/Test1",
+                    type: "POST",
+                    context: this,
+                    data: { "querytxt": $("#SearchBox").val() },
+                    success: function (data) {
+                        
+                        $("#results").html(data);
+                    },
+                    error: function (data) {
+                        console.log("error", data);
+                    }
+                });
+            });
+
+        });
+        
+
+
+       
+
+
+    </script>
+</head>
+<body>
+    <div id="prefetch">
+        <input class="typeahead" type="text" name="SearchBox" id="SearchBox" placeholder="Enter Search text">&nbsp;<input name="submit" type="submit" id="submit" value="Show" />
+    </div>
+
+    <div id="results">
+       
+
+    </div>
+        
+</body>
+
+</html>
